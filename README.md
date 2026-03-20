@@ -40,3 +40,27 @@ Use this as a first-pass model picker. It is organized around the identifying fe
 - [Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb)
 - [Synthetic Controls/01_synthetic_control_marketing.ipynb](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb)
 - [Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb](./Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb)
+
+## Visual Selector
+
+This visual is intentionally compact. Use the decision table above for the clickable notebook links, and use the diagram below for a quick visual pass.
+
+```mermaid
+flowchart TB
+    A([Start]) --> B{Threshold assignment?}
+    B -->|Yes| RDD[[RDD 01]]
+    B -->|No| C{Match on outcome path?}
+
+    C -->|Yes| D{Staggered timing<br/>and heterogeneous effects?}
+    C -->|No| E{Many pre-treatment periods?}
+
+    D -->|No| DID1[[DiD 01]]
+    D -->|Yes| DID2[[DiD 02]]
+    DID2 --> DID3[[DiD 03]]
+
+    E -->|No| DID1B[[DiD 01]]
+    E -->|Yes| L[Long-panel options]
+    L --> DID1C[[DiD 01]]
+    L --> DID4[[DiD 04]]
+    L --> SC[[Synthetic Control 01]]
+```
