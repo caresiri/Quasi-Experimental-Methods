@@ -4,29 +4,25 @@ Instructional Jupyter notebooks for applied causal inference in marketing settin
 
 ## Decision Tree
 
-Use this as a first-pass model picker.
+Use this as a first-pass model picker. It is organized around the identifying feature of the design rather than around software.
 
-```mermaid
-flowchart TD
-    A([Start]) --> B{Match treated and control units<br/>primarily on the outcome path?}
+| Step | Question | If yes | If no |
+| --- | --- | --- | --- |
+| 1 | Is treatment assigned, fully or partly, by crossing a fixed threshold in an observed running variable? | [Regression Discontinuity 01](./Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb) | Go to Step 2 |
+| 2 | Are you primarily trying to make treated and control units comparable using their pre-treatment outcome path? | Go to Step 3A | Go to Step 3B |
+| 3A | Is treatment staggered over time and are treatment effects likely heterogeneous across cohorts or event time? | [DiD 02: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb), then [DiD 03: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
+| 3B | Do you have a sufficiently large number of pre-treatment periods? | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb), [DiD 04: Synthetic DiD](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb), or [Synthetic Control 01](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
 
-    B -->|Yes| C{Staggered treatment timing<br/>and heterogeneous treatment effects?}
-    C -->|Yes| D[Use multi-period DiD]
-    C -->|No| E[Use vanilla DiD]
+## Quick Guide
 
-    B -->|No| F{Sufficiently large number of<br/>pre-treatment time periods?}
-    F -->|Yes| G[Use long-panel methods]
-    F -->|No| E
-```
-
-## Recommended Path By Branch
-
-| Decision path | Recommended notebook(s) | Why |
+| If your situation looks like this | Start here | Why |
 | --- | --- | --- |
-| Match treated and control units primarily on the outcome path = **Yes**; staggered timing and heterogeneous effects = **Yes** | Start with [02 Multi-Period DiD: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb), then move to [03 Multi-Period DiD With Heterogeneous Effects: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | Use `02` to learn group-time ATT logic under staggered adoption. Use `03` when you need an event-study framework that is robust to heterogeneous treatment effects over event time. |
-| Match treated and control units primarily on the outcome path = **Yes**; staggered timing and heterogeneous effects = **No** | [01 Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) | Start with the cleanest 2x2 DiD setup when treatment is simple and standard parallel trends is the main identifying assumption. |
-| Match treated and control units primarily on the outcome path = **No**; many pre-treatment periods = **Yes** | [01 Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb), [04 Synthetic Difference-in-Differences](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb), [01 Synthetic Control](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | Longer panels let you assess pre-fit and build weighted comparisons. `04` is useful when you want DiD plus outcome-based reweighting. Synthetic control is useful when matching the entire pre-treatment path is central. `01` remains the baseline benchmark. |
-| Match treated and control units primarily on the outcome path = **No**; many pre-treatment periods = **No** | [01 Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) | If the panel is short, the more weighting-intensive methods are harder to justify and diagnose well. Start with the simplest DiD and be explicit about its limitations. |
+| Treatment turns on at a cutoff or score threshold | [Regression Discontinuity 01](./Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb) | The assignment rule itself creates local comparability near the cutoff. |
+| Clean before/after comparison with treated and untreated units, and a standard parallel-trends story is plausible | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) | This is the baseline panel design and the right first benchmark. |
+| Different units adopt treatment in different periods | [DiD 02: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb) | This notebook introduces staggered adoption using group-time treatment effects. |
+| Staggered adoption plus concern that treatment effects differ across cohorts or event time | [DiD 03: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | This is the right next step when naive TWFE event studies can be misleading. |
+| Long panel, but raw treated and control units do not look comparable without reweighting | [DiD 04: Synthetic DiD](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb) | Synthetic DiD combines DiD logic with outcome-based reweighting over units and time. |
+| Long pre-treatment panel and matching the full treated outcome path is central | [Synthetic Control 01](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | Synthetic control is most natural when pre-treatment fit is the core design feature. |
 
 ## What The Tree Means
 
@@ -34,6 +30,7 @@ flowchart TD
 - **Staggered treatment timing**: different treated units adopt in different periods rather than all at once.
 - **Heterogeneous treatment effects**: treatment effects vary across cohorts or over event time, so naive TWFE event studies can be misleading.
 - **Sufficiently large number of pre-treatment periods**: enough pre-period observations to check fit, inspect trajectories, and support weighting methods such as synthetic control or synthetic DiD.
+- **Fixed threshold assignment**: treatment is determined by whether a running variable crosses a cutoff, making regression discontinuity the natural design before you consider panel-based alternatives.
 
 ## Notebook Map
 
