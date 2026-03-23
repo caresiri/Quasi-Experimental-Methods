@@ -9,9 +9,10 @@ Use this as a first-pass model picker. It is organized around the identifying fe
 | Step | Question | If yes | If no |
 | --- | --- | --- | --- |
 | 1 | Is treatment assigned, fully or partly, by crossing a fixed threshold in an observed running variable? | [Regression Discontinuity 01](./Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb) | Go to Step 2 |
-| 2 | Are you primarily trying to make treated and control units comparable using their pre-treatment outcome path? | Go to Step 3A | Go to Step 3B |
-| 3A | Is treatment staggered over time and are treatment effects likely heterogeneous across cohorts or event time? | [DiD 02: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb), then [DiD 03: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
-| 3B | Do you have a sufficiently large number of pre-treatment periods? | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb), [DiD 04: Synthetic DiD](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb), or [Synthetic Control 01](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
+| 2 | Are you primarily trying to make treated and control units comparable using their pre-treatment outcome path? | Go to Step 3 | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
+| 3 | Do you have a large number of treated units available? | Go to Step 4 | Go to Step 5 |
+| 4 | Is treatment staggered over time and are treatment effects likely heterogeneous across cohorts or event time? | [DiD 02: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb), then [DiD 03: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
+| 5 | Do you have a sufficiently large number of pre-treatment periods? | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb), [DiD 04: Synthetic DiD](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb), or [Synthetic Control 01](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
 
 ## Quick Guide
 
@@ -27,6 +28,7 @@ Use this as a first-pass model picker. It is organized around the identifying fe
 ## What The Tree Means
 
 - **Match primarily on the outcome path**: your main strategy is to make treated and control units look alike using their pre-treatment outcome trajectories.
+- **Large number of treated units**: enough treated units to make multi-unit DiD comparisons natural rather than relying on a very small treated set.
 - **Staggered treatment timing**: different treated units adopt in different periods rather than all at once.
 - **Heterogeneous treatment effects**: treatment effects vary across cohorts or over event time, so naive TWFE event studies can be misleading.
 - **Sufficiently large number of pre-treatment periods**: enough pre-period observations to check fit, inspect trajectories, and support weighting methods such as synthetic control or synthetic DiD.
@@ -51,15 +53,18 @@ flowchart TB
     B -->|Yes| RDD[[RDD 01]]
     B -->|No| C{Match on outcome path?}
 
-    C -->|Yes| D{Staggered timing<br/>and heterogeneous effects?}
-    C -->|No| E{Many pre-treatment periods?}
+    C -->|No| DID0[[DiD 01]]
+    C -->|Yes| D{Large number of<br/>treated units?}
 
-    D -->|No| DID1[[DiD 01]]
-    D -->|Yes| DID2[[DiD 02]]
+    D -->|Yes| E{Staggered timing<br/>and heterogeneous effects?}
+    D -->|No| F{Many pre-treatment periods?}
+
+    E -->|No| DID1[[DiD 01]]
+    E -->|Yes| DID2[[DiD 02]]
     DID2 --> DID3[[DiD 03]]
 
-    E -->|No| DID1B[[DiD 01]]
-    E -->|Yes| L[Long-panel options]
+    F -->|No| DID1B[[DiD 01]]
+    F -->|Yes| L[Long-panel options]
     L --> DID1C[[DiD 01]]
     L --> DID4[[DiD 04]]
     L --> SC[[Synthetic Control 01]]
