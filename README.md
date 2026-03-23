@@ -9,7 +9,7 @@ Use this as a first-pass model picker. It is organized around the identifying fe
 | Step | Question | If yes | If no |
 | --- | --- | --- | --- |
 | 1 | Is treatment assigned, fully or partly, by crossing a fixed threshold in an observed running variable? | [Regression Discontinuity 01](./Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb) | Go to Step 2 |
-| 2 | Are you primarily trying to make treated and control units comparable using their pre-treatment outcome path? | Go to Step 3 | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
+| 2 | Are you primarily trying to make treated and control units comparable using their pre-treatment outcome path? | To be continued | Go to Step 3 |
 | 3 | Do you have a large number of treated units available? | Go to Step 4 | Go to Step 5 |
 | 4 | Is treatment staggered over time and are treatment effects likely heterogeneous across cohorts or event time? | [DiD 02: Callaway-Sant'Anna](./Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb), then [DiD 03: Sun-Abraham](./Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
 | 5 | Do you have a sufficiently large number of pre-treatment periods? | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb), [DiD 04: Synthetic DiD](./Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb), or [Synthetic Control 01](./Synthetic%20Controls/01_synthetic_control_marketing.ipynb) | [DiD 01: Vanilla DiD](./Differences-in-Differences/01_vanilla_did_marketing.ipynb) |
@@ -50,22 +50,30 @@ This visual is intentionally compact. Use the decision table above for the click
 ```mermaid
 flowchart TB
     A([Start]) --> B{Threshold assignment?}
-    B -->|Yes| RDD[[RDD 01]]
+    B -->|Yes| RDD["01. Vanilla Regression Discontinuity<br/>for a Marketing Offer"]
     B -->|No| C{Match on outcome path?}
 
-    C -->|No| DID0[[DiD 01]]
-    C -->|Yes| D{Large number of<br/>treated units?}
+    C -->|Yes| TBC([To be continued])
+    C -->|No| D{Large number of<br/>treated units?}
 
     D -->|Yes| E{Staggered timing<br/>and heterogeneous effects?}
     D -->|No| F{Many pre-treatment periods?}
 
-    E -->|No| DID1[[DiD 01]]
-    E -->|Yes| DID2[[DiD 02]]
-    DID2 --> DID3[[DiD 03]]
+    E -->|No| DID1["01. Vanilla Differences-in-Differences<br/>for a Marketing Campaign"]
+    E -->|Yes| DID2["02. Multi-Period DiD<br/>in the Callaway-Sant'Anna Style"]
+    DID2 --> DID3["03. Multi-Period DiD with Heterogeneous Dynamic Effects<br/>in the Sun-Abraham Style"]
 
-    F -->|No| DID1B[[DiD 01]]
+    F -->|No| DID1
     F -->|Yes| L[Long-panel options]
-    L --> DID1C[[DiD 01]]
-    L --> DID4[[DiD 04]]
-    L --> SC[[Synthetic Control 01]]
+
+    L --> DID1
+    L --> DID4["04. Synthetic Difference-in-Differences<br/>for a Marketing Pilot"]
+    L --> SC["01. Synthetic Control<br/>for a Marketing Pilot"]
+
+    click RDD href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb" "Open notebook"
+    click DID1 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/01_vanilla_did_marketing.ipynb" "Open notebook"
+    click DID2 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb" "Open notebook"
+    click DID3 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb" "Open notebook"
+    click DID4 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb" "Open notebook"
+    click SC href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Synthetic%20Controls/01_synthetic_control_marketing.ipynb" "Open notebook"
 ```
