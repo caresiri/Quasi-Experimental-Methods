@@ -50,7 +50,7 @@ This visual is intentionally compact. Use the decision table above for the click
 ```mermaid
 flowchart TB
     A([Start]) --> B{Threshold assignment?}
-    B -->|Yes| RDD["01. Vanilla Regression Discontinuity<br/>for a Marketing Offer"]
+    B -->|Yes| RDD["RDD 01"]
     B -->|No| C{Match on outcome path?}
 
     C -->|Yes| TBC([To be continued])
@@ -59,19 +59,21 @@ flowchart TB
     D -->|Yes| E{Staggered timing<br/>and heterogeneous effects?}
     D -->|No| F{Many pre-treatment periods?}
 
-    E -->|No| DID1["01. Vanilla Differences-in-Differences<br/>for a Marketing Campaign"]
-    E -->|Yes| DID2["02. Multi-Period DiD<br/>in the Callaway-Sant'Anna Style"]
-    DID2 --> DID3["03. Multi-Period DiD with Heterogeneous Dynamic Effects<br/>in the Sun-Abraham Style"]
+    E -->|No| DID1A["DiD 01"]
+    E -->|Yes| DID2["DiD 02"]
+    DID2 --> DID3["DiD 03"]
 
-    F -->|No| DID1
+    F -->|No| DID1B["DiD 01"]
     F -->|Yes| L[Long-panel options]
 
-    L --> DID1
-    L --> DID4["04. Synthetic Difference-in-Differences<br/>for a Marketing Pilot"]
-    L --> SC["01. Synthetic Control<br/>for a Marketing Pilot"]
+    L --> DID1C["DiD 01"]
+    L --> DID4["DiD 04"]
+    L --> SC["SC 01"]
 
     click RDD href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Regression-Discontinuity/01_vanilla_rdd_marketing.ipynb" "Open notebook"
-    click DID1 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/01_vanilla_did_marketing.ipynb" "Open notebook"
+    click DID1A href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/01_vanilla_did_marketing.ipynb" "Open notebook"
+    click DID1B href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/01_vanilla_did_marketing.ipynb" "Open notebook"
+    click DID1C href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/01_vanilla_did_marketing.ipynb" "Open notebook"
     click DID2 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/02_multi_period_did_callaway_santanna_marketing.ipynb" "Open notebook"
     click DID3 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/03_multi_period_did_heter_effects_sun_abraham.ipynb" "Open notebook"
     click DID4 href "https://github.com/caresiri/Quasi-Experimental-Methods/blob/main/Differences-in-Differences/04_synthetic_difference_in_differences_arkhangelsky_et_al_marketing.ipynb" "Open notebook"
