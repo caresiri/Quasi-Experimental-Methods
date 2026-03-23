@@ -2,6 +2,19 @@
 
 Instructional Jupyter notebooks for applied causal inference in marketing settings. Each notebook is self-contained, uses simulated data, and is designed to show when a design is appropriate, what assumptions identify the effect, which diagnostics matter, and how to estimate the model.
 
+## Project Note
+
+This repository is built for learners who prefer to work through methods by doing, not just by reading. That is the main purpose of these notebooks, and it is how I use them myself.
+
+The goal is to give you a practical starting point: enough structure to understand the design, run the analysis, and see the core assumptions and diagnostics in action. Some notebooks simplify parts of the underlying methodology for instructional clarity, so they should be treated as learning tools rather than as fully complete methodological references.
+
+Two important disclaimers:
+
+1. These notebooks are not methodology-complete.
+2. This repository is not yet exhaustive, though it is being expanded in that direction.
+
+The collection has been expanding from the framework presented in Li, Luo, and Pattabhiramaiah (2024), ["Causal Inference with Quasi-Experimental Data"](https://www.ama.org/marketing-news/causal-inference-with-quasi-experimental-data/).
+
 ## Decision Tree
 
 Use this as a first-pass model picker. It is organized around the identifying feature of the design rather than around software.
